@@ -16,6 +16,7 @@ Included in this repo are the following folders and files:
 
 - `README.md` -  Markdown file describing how the script works.
 - `run_analysis.R` - R script to be run **after** the working directory has been set to the same where all input data is stored.
+- `run_analysisf.R` - Wrapper for `run_analysis.R`.
 - `UCI HAR Dataset` - Folder containing all input and example output (i.e. `extidydataoutput.txt`) data
 
 Files contained in *UCI HAR Dataset* folder includes:
@@ -70,11 +71,11 @@ It also uses some string manipulation functions from [stringr](http://cran.r-pro
 
 ##Comments
 
-The code hasn't been modularized at all into functions and as a consequence of that, quite a lot of objects are created. As of now, the extimated memory usage of the workspace after successful completion of the scrit is around **610 MB** of RAM. I'm running the script on a **2010 MacBook Pro**, with a **2.4 GHz Intel Core i5**,**4 GB 1067 MHz DDR3 of RAM Memory**, and **OSX 10.9.4**.
+The code hasn't been modularized at all into functions and as a consequence of that, quite a lot of objects are created. As of now, the extimated memory usage of the workspace after successful completion of the script is around **610 MB** of RAM. I'm running the script on a **2010 MacBook Pro**, with a **2.4 GHz Intel Core i5**,**4 GB 1067 MHz DDR3 of RAM Memory**, and **OSX 10.9.4**. Using the wrapper made available under function `output()` in [run_analysisf.R](https://github.com/Jamamel/getcleanData/blob/master/run_analysisf.R) should help in this respect.
 
 Running a quick benchmark and profiling test:
 
-- processing time is around 70 seconds after 10 iterations (I was streaming "Match of the Day"" and committing to Github at the time... hehe).
+- processing time is around 70 seconds after 10 iterations (I was streaming "Match of the Day", hadn't bult the function wrapper and committing to Github at the time... hehe).
 ```R
 Unit: seconds
            expr      min       lq   median       uq     max neval
@@ -103,9 +104,9 @@ Unit: seconds
 18  0.025   0.369   0.000    786 .active-rstudio-document#94 output/write.table     
 ```
 
-The code still suffers from a noticeable bottleneck when loading all files. How could the rough application of `read.table` over a loop and into lists be improved to make this part of the process a lot quicker and efficient? *(see row 2 in table above)*
+- The code still suffers from a noticeable bottleneck when loading all files. How could the rough application of `read.table` over a loop and into lists be improved to make this part of the process a lot quicker and efficient? *(see row 2 in table above)*
 
-I believe there is a way to split a string column into multiple columns using `strsplit` (or equivalents) more efficiently. This is the second, slightly smaller bottleneck in the code. *(see rows 12 & 13 in table above)*
+- I believe there is a way to split a string column into multiple columns using `strsplit` (or equivalents) more efficiently. This is the second, slightly smaller bottleneck in the code. *(see rows 12 & 13 in table above)*
 
 Below is a printout of my session so that R version and packages loaded can be compared and results replicated successfully. 
 
