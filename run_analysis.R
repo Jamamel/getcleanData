@@ -93,8 +93,8 @@ moltmeas <- melt(measured,id.vars = key(measured))
 moltmeas[,variable := as.character(moltmeas$variable)]
 
 x <- strsplit(moltmeas$variable,split = '-')
-x1 <- as.data.table(t(sapply(x,
-							function(x) if(length(x) == 2) x = c(x,NA) else x)))
+x1 <- as.data.table(t(sapply(x,function(x) 
+	if(length(x) == 2) x = c(x,NA) else x)))
 splitnames <- c('feature','stat','axis')
 setnames(x1,splitnames)
 moltmeas <- cbind(moltmeas,x1)
