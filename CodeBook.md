@@ -13,6 +13,7 @@ List of 2
 ```
 
 ```R
+Test Group
 Total: 42MB
            NAME  NROW MB
  1:  body_acc_x 2,947  3
@@ -27,6 +28,22 @@ Total: 42MB
 10: total_acc_z 2,947  3
 11:           X 2,947 13
 12:           y 2,947  1
+
+Train Group
+Total: 106MB
+           NAME  NROW MB
+ 1:  body_acc_x 7,352  8
+ 2:  body_acc_y 7,352  8
+ 3:  body_acc_z 7,352  8
+ 4: body_gyro_x 7,352  8
+ 5: body_gyro_y 7,352  8
+ 6: body_gyro_z 7,352  8
+ 7:     subject 7,352  1
+ 8: total_acc_x 7,352  8
+ 9: total_acc_y 7,352  8
+10: total_acc_z 7,352  8
+11:           X 7,352 32
+12:           y 7,352  1
 ```
 
 The output of this script is a data table (in `*.txt` format), of which this is a preview:
