@@ -10,21 +10,19 @@ library(stringr)
 
 ## create list "datalist" containing all datasets
 # create "datalist" structure based on folder/file structure in WD
-pathlist <- alply(list.dirs(getwd(),recursive = F),
-									1,
-									list.files,
-									pattern = '*.txt',
-									full.names = T,
-									recursive = T)
+pathlist <- alply(list.dirs(getwd(),recursive = F),1,
+	list.files,
+	pattern = '*.txt',
+	full.names = T,
+	recursive = T)
 
 # create dataset list, mimicing folder/file structure
 datalist <- lapply(pathlist,
-					sapply,
-					function(x) {
-						initial <- read.table(x, nrows = 50)
-						classes <- sapply(initial, class)
-						tabAll <- data.table(read.table(x,colClasses = classes))
-									 })
+	sapply,
+		function(x) {
+			initial <- read.table(x, nrows = 50)
+			classes <- sapply(initial, class)
+			tabAll <- data.table(read.table(x,colClasses = classes))})
 
 # name lists and elements within lists mimicing folder/file structure
 groups <- list.dirs(recursive = F,full.names = F)
@@ -42,8 +40,8 @@ datalist2 <- lapply(datalist,function(x) do.call(cbind.data.frame,x))
 # add a test vs. trial identifier variable "Group" as a factor
 # notice number of groups and datasets is dynamic based on original
 # number of data folders
-for(i in seq_along(groups)) datalist2[[i]][,
-											Group := factor(groups[i],levels = groups)]
+for(i in seq_along(groups)) 
+	datalist2[[i]][,Group := factor(groups[i],levels = groups)]
 
 # merge all datasets into single dataset using "rbind" action
 fdata <- rbindlist(datalist2)
