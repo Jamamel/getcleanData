@@ -19,11 +19,11 @@ pathlist <- alply(list.dirs(getwd(),recursive = F),
 
 # create dataset list, mimicing folder/file structure
 datalist <- lapply(pathlist,
-									 sapply,
-									 function(x) {
-									 	initial <- read.table(x, nrows = 50)
-									 	classes <- sapply(initial, class)
-									 	tabAll <- data.table(read.table(x,colClasses = classes))
+					sapply,
+					function(x) {
+						initial <- read.table(x, nrows = 50)
+						classes <- sapply(initial, class)
+						tabAll <- data.table(read.table(x,colClasses = classes))
 									 })
 
 # name lists and elements within lists mimicing folder/file structure
@@ -32,7 +32,9 @@ names(datalist) <- groups
 
 # names of individual data.tables become generic, removing
 # "_test/trial.txt" substring
-for(i in seq_along(groups)) names(datalist[[i]]) <- sub(paste('_',groups[i],'.txt',sep = ''),'',basename(names(datalist[[i]])))
+for(i in seq_along(groups)) names(datalist[[i]]) <- sub(
+	paste('_',groups[i],'.txt',sep = ''),'',
+	basename(names(datalist[[i]])))
 
 # cbind all data.tables in each list element of datalist
 datalist2 <- lapply(datalist,function(x) do.call(cbind.data.frame,x))
@@ -40,7 +42,8 @@ datalist2 <- lapply(datalist,function(x) do.call(cbind.data.frame,x))
 # add a test vs. trial identifier variable "Group" as a factor
 # notice number of groups and datasets is dynamic based on original
 # number of data folders
-for(i in seq_along(groups)) datalist2[[i]][,Group := factor(groups[i],levels = groups)]
+for(i in seq_along(groups)) datalist2[[i]][,
+											Group := factor(groups[i],levels = groups)]
 
 # merge all datasets into single dataset using "rbind" action
 fdata <- rbindlist(datalist2)
@@ -56,10 +59,13 @@ setkey(metad,'FeatureCode')
 # identify feature codes for mean & std. deviation variables for each
 # measure
 # meanFreq feature is excluded due to ambiguity in requirement on course project description
-extractcols <- grep('mean\\(\\)|std\\(\\)',metad$FeatureDescr,value = T)
+extractcols <- grep('mean\\(\\)|std\\(\\)',
+										metad$FeatureDescr,
+										value = T)
 
 # extract feature codes
-codes <- metad[metad$FeatureDescr %in% extractcols,'FeatureCode',with = F]
+codes <- metad[metad$FeatureDescr %in% extractcols,
+							 'FeatureCode',with = F]
 
 # transform to match column names in fdata relating to code
 xcodes <- paste('X.V',codes$FeatureCode,sep = '')
@@ -87,7 +93,8 @@ moltmeas <- melt(measured,id.vars = key(measured))
 moltmeas[,variable := as.character(moltmeas$variable)]
 
 x <- strsplit(moltmeas$variable,split = '-')
-x1 <- as.data.table(t(sapply(x,function(x) if(length(x) == 2) x = c(x,NA) else x)))
+x1 <- as.data.table(t(sapply(x,
+							function(x) if(length(x) == 2) x = c(x,NA) else x)))
 splitnames <- c('feature','stat','axis')
 setnames(x1,splitnames)
 moltmeas <- cbind(moltmeas,x1)
@@ -99,7 +106,8 @@ setnames(metad2,1:2,c('ActivityCode','ActivityDescr'))
 setkey(metad2,'ActivityCode')
 
 # define activity code as factor and add labels
-moltmeas[,ActivityCode := factor(moltmeas$ActivityCode,labels = tolower(metad2$ActivityDescr))]
+moltmeas[,ActivityCode := factor(moltmeas$ActivityCode,
+														labels = tolower(metad2$ActivityDescr))]
 setnames(moltmeas,'ActivityCode','Activity')
 
 # cast data.table to achieve tidy, workable format
@@ -107,9 +115,9 @@ setnames(moltmeas,'ActivityCode','Activity')
 # subject, activity, and feature (variable, across all 3 axes when
 # available)
 castdt <- dcast.data.table(moltmeas[,-c(4,8),with = F],
-Group + SubjectID + Activity + feature ~  stat,
-									value.var = 'value',
-									fun.aggregate = mean)
+						Group + SubjectID + Activity + feature ~  stat,
+						value.var = 'value',
+						fun.aggregate = mean)
 
 # output as "tidydataoutput.txt" to working directory
 write.table(castdt,file = 'tidydataoutput.txt',row.names = F)
