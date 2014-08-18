@@ -39,7 +39,7 @@ install.packages(c("data.table","reshape2","stringr","plyr"))
 
 All you need do now is source the R script `run_analysis.R`. The code will generate a file `tidydataoutput.txt` satisfying the project objective (as described above). The file will be generated in your WD. Please see the included Code Book for a description of output data.
 
-Below is a preview of the resulting data.table *castdt* as the final output object in run_analysis.R (exported as `tidydataoutput.txt`):
+Below is a preview of the resulting data.table `castdt` as the final output object in run_analysis.R (exported as `tidydataoutput.txt`):
 
 ```R
 castdt
@@ -64,9 +64,9 @@ The script follows the principles of [tidy data (as described by Hadley Wickham)
 
 It takes advantage of the very recent [data.table](http://cran.r-project.org/web/packages/data.table/index.html) package, in combination with functions `melt` and `dcast.data.table` in the [reshape2](http://cran.r-project.org/web/packages/reshape2/index.html) package. 
 
-It also uses some string manipulation functions from the [stringr](http://cran.r-project.org/web/packages/stringr/index.html). The script `run_analysis.R` is annotated throughout in order to show the steps implemented. 
+It also uses some string manipulation functions from [stringr](http://cran.r-project.org/web/packages/stringr/index.html). The script `run_analysis.R` is annotated throughout in order to show the steps implemented. 
 
-[plyr](http://cran.r-project.org/web/packages/plyr/index.html) is also used in functions that setup the data loading routines.
+[plyr](http://cran.r-project.org/web/packages/plyr/index.html) is also used in functions that setup data loading routines (e.g. `alply`).
 
 ##Comments
 
@@ -103,7 +103,7 @@ Unit: seconds
 18  0.025   0.369   0.000    786 .active-rstudio-document#94 output/write.table     
 ```
 
-The code still suffers from a noticeable bottleneck when loading all files. How could the rough application of `read.table` over a loop and into lists could be improved to make this part of the process a lot quicker and efficient? *(see row 2 in table above)*
+The code still suffers from a noticeable bottleneck when loading all files. How could the rough application of `read.table` over a loop and into lists be improved to make this part of the process a lot quicker and efficient? *(see row 2 in table above)*
 
 I believe there is a way to split a string column into multiple columns using `strsplit` (or equivalents) more efficiently. This is the second, slightly smaller bottleneck in the code. *(see rows 12 & 13 in table above)*
 
