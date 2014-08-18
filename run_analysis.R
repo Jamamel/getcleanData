@@ -10,23 +10,15 @@ library(stringr)
 
 ## create list "datalist" containing all datasets
 # create "datalist" structure based on folder/file structure in WD
-pathlist <- alply(list.dirs(getwd(),recursive = F),
-									1,
-									list.files,
-									pattern = '*.txt',
-									full.names = T,
-									recursive = T)
+pathlist <- alply(list.dirs(getwd(),recursive = F),1,list.files,pattern = '*.txt',full.names = T,recursive = T)
 
 # create dataset list, mimicing folder/file structure
-datalist <- lapply(pathlist,
-									 sapply,
+datalist <- lapply(pathlist,sapply,
 									 function(x) {
-									 	
 									 	initial <- read.table(x, nrows = 50)
 									 	classes <- sapply(initial, class)
 									 	tabAll <- data.table(read.table(x,colClasses = classes))
-									 	
-									 })
+									 	})
 
 # name lists and elements within lists mimicing folder/file structure
 groups <- list.dirs(recursive = F,full.names = F)

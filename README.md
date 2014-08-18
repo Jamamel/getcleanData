@@ -70,11 +70,42 @@ It also uses some string manipulation functions from the [stringr](http://cran.r
 
 ##Comments
 
-The code still suffers from a noticeable bottleneck when loading the different files. A rough application of `read.table` could be improved to make this part of the process a lot quicker and efficient.
+The code hasn't been modularized at all into functions and as a consequence of that, quite a lot of objects are created. As of now, the extimated memory usage of the workspace after successful completion of the scrit is around **610 MB** of RAM. I'm running the script on a **2010 MacBook Pro**, with a **2.4 GHz Intel Core i5**,**4 GB 1067 MHz DDR3 of RAM Memory**, and **OSX 10.9.4**.
 
-The code hasn't been modularized at all into functions and as a consequence of that, quite a lot of objects are created. As of now, the extimated memory usage of the workspace after successful completion of the scrit is around **610 MB** or RAM.
+Running a quick benchmark and profiling test:
 
-I believe there is a way to split a string column into multiple columns using `strsplit` (or equivalents) more efficiently. This is the second, smaller bottleneck in the code.
+- processing time is around 70 seconds after 10 iterations (I was streaming "Match of the Day"" and committing to Github at the time... hehe).
+```R
+Unit: seconds
+           expr      min       lq   median       uq     max neval
+ run_analysis.R 66.13029 66.60161 69.96732 80.04303 83.4226    10
+```
+
+```R
+     time   alloc release   dups                         ref                     src
+1   0.002   0.212   0.000    448  .active-rstudio-document#9 output/alply           
+2  44.042 432.283 353.887 468505 .active-rstudio-document#12 output/lapply          
+3   0.004   0.450   0.000   1205 .active-rstudio-document#31 output/[               
+4   0.454  50.857  44.920  52584 .active-rstudio-document#34 output/rbindlist       
+5   0.031   0.011   0.000    804 .active-rstudio-document#36 output/setkeyv         
+6   0.002   0.207   0.000     61 .active-rstudio-document#40 output/fread           
+7   0.001   0.096   0.000    187 .active-rstudio-document#49 output/[               
+8   0.001   0.137   0.000    134 .active-rstudio-document#52 output/paste           
+9   0.063   3.207  34.874   3473 .active-rstudio-document#59 output/[               
+10  0.015   2.273   0.000    322 .active-rstudio-document#67 output/melt            
+11  0.050   1.659   2.450    503 .active-rstudio-document#71 output/[               
+12  1.456  39.187   1.329      8 .active-rstudio-document#73 output/strsplit        
+13  1.766 600.547 532.320    146 .active-rstudio-document#74 output/as.data.table   
+14  0.120   3.585  67.257    156 .active-rstudio-document#77 output/cbind           
+15  0.032   0.716   0.000    519 .active-rstudio-document#78 output/setkeyv         
+16  0.088   4.484   0.000    728 .active-rstudio-document#86 output/[               
+17  0.101   6.859   0.000    771 .active-rstudio-document#91 output/dcast.data.table
+18  0.025   0.369   0.000    786 .active-rstudio-document#94 output/write.table     
+```
+
+The code still suffers from a noticeable bottleneck when loading all files. How could the rough application of `read.table` over a loop and into lists could be improved to make this part of the process a lot quicker and efficient? *(see row 2 in table above)*
+
+I believe there is a way to split a string column into multiple columns using `strsplit` (or equivalents) more efficiently. This is the second, slightly smaller bottleneck in the code. *(see rows 12 & 13 in table above)*
 
 Below is a printout of my session so that R version and packages loaded can be compared and results replicated successfully. 
 
