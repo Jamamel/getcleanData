@@ -60,8 +60,8 @@ setkey(metad,'FeatureCode')
 # measure
 # meanFreq feature is excluded due to ambiguity in requirement on course project description
 extractcols <- grep('mean\\(\\)|std\\(\\)',
-										metad$FeatureDescr,
-										value = T)
+	metad$FeatureDescr,
+	value = T)
 
 # extract feature codes
 codes <- metad[metad$FeatureDescr %in% extractcols,
@@ -107,7 +107,7 @@ setkey(metad2,'ActivityCode')
 
 # define activity code as factor and add labels
 moltmeas[,ActivityCode := factor(moltmeas$ActivityCode,
-														labels = tolower(metad2$ActivityDescr))]
+	labels = tolower(metad2$ActivityDescr))]
 setnames(moltmeas,'ActivityCode','Activity')
 
 # cast data.table to achieve tidy, workable format
