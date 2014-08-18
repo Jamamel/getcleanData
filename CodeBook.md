@@ -4,13 +4,13 @@ This document describes the data set produced by the script [run.analysis.R](htt
 
 For specifics about the contents of each data set please refer to the original study's [Code Book](https://github.com/Jamamel/getcleanData/blob/master/UCI%20HAR%20Dataset/README.txt).
 
-Each data set was named by extracting the generic roots from their file name. (e.g. `X_test.txt` became `X`, row 11 in table below)
-
 ```R
 List of 2
  $ test :List of 12
  $ train:List of 12
 ```
+
+Each data set was named by extracting the generic roots from their file name  (e.g. `X_test.txt` became `X`, row 11 in tables below).
 
 ```R
 Test Group
