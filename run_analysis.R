@@ -63,7 +63,7 @@ extractcols <- grep('mean\\(\\)|std\\(\\)',
 
 # extract feature codes
 codes <- metad[metad$FeatureDescr %in% extractcols,
-							 'FeatureCode',with = F]
+	'FeatureCode',with = F]
 
 # transform to match column names in fdata relating to code
 xcodes <- paste('X.V',codes$FeatureCode,sep = '')
@@ -113,9 +113,9 @@ setnames(moltmeas,'ActivityCode','Activity')
 # subject, activity, and feature (variable, across all 3 axes when
 # available)
 castdt <- dcast.data.table(moltmeas[,-c(4,8),with = F],
-						Group + SubjectID + Activity + feature ~  stat,
-						value.var = 'value',
-						fun.aggregate = mean)
+	Group + SubjectID + Activity + feature ~  stat,
+	value.var = 'value',
+	fun.aggregate = mean)
 
 # output as "tidydataoutput.txt" to working directory
 write.table(castdt,file = 'tidydataoutput.txt',row.names = F)
