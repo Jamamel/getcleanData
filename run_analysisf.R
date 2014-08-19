@@ -1,3 +1,8 @@
+library(plyr)
+library(data.table)
+library(reshape2)
+library(stringr)
+
 # run_analysis.R wrapper function
 # wrapping the run_analysis.R into a function for benchmarking and
 # profiling purposes.
