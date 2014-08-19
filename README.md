@@ -75,7 +75,11 @@ The code hasn't been modularized at all into functions and as a consequence of t
 
 Running a quick benchmark and profiling test:
 
+<<<<<<< HEAD
 - processing time is around 70 seconds after 10 iterations (I was streaming "Match of the Day", hadn't built the function wrapper and committing to Github at the time... hehe).
+=======
+- processing time is around 70 seconds after 10 iterations (I was streaming "Match of the Day", hadn't bult the function wrapper and committing to Github at the time... hehe).
+>>>>>>> FETCH_HEAD
 ```R
 Unit: seconds
            expr      min       lq   median       uq     max neval
